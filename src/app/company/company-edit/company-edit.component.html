@@ -1,1 +1,24 @@
-<p>company-edit works!</p>
+<form [formGroup]="formGroup">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" name="name" formControlName="name">
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone</label>
+    <input type="text" class="form-control" name="phone" formControlName="phone">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" name="email" formControlName="email">
+  </div>
+
+  <div class="form-group">
+    <button type="button" class="btn btn-primary"
+      [disabled]="!formGroup.valid"
+      (click)="saveCompany()">
+      Save
+    </button>
+  </div>
+</form>
