@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'firebootcamp-crm-brisbane-2022';
+  title = 'Brisbane is awesome';
+
 }
+
