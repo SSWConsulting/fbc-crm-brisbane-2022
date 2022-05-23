@@ -16,17 +16,17 @@ export class CompanyService {
   getCompanies(): Observable<Company[]> {
     return this.httpClient.get<Company[]>(`${this.API_BASE}/company`).pipe(
       tap((companies) => {
-        console.log('logging from service ', companies);
+        //console.log('logging from service ', companies);
       }),
       catchError((e) => this.errorHandler<Company[]>(e)),
       finalize(() => {
-        console.log('finalized the stream');
+        //console.log('finalized the stream');
       })
     );
   }
 
   deleteCompany(companyId): Observable<Company> {
-    console.log('service.deleteCompany fired. CompanyId=', companyId);
+    //console.log('service.deleteCompany fired. CompanyId=', companyId);
     return this.httpClient
       .delete<Company>(`${this.API_BASE}/company/${companyId}`)
       .pipe(catchError((e) => this.errorHandler<Company>(e)));

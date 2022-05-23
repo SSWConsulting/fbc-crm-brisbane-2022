@@ -1,27 +1,8 @@
 
 <h1 class="text-success">
   Company List
-  <button class="btn btn-success float-right">Add</button>
+  <button class="btn btn-success float-right" [routerLink]="['/company/add']">Add</button>
 </h1>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let company of (companies$ | async)">
-      <td>{{ company.name }} (ID {{ company.id }})</td>
-      <td>{{ company.email }}</td>
-      <td>{{ company.phone }}</td>
-      <td class="company-actions">
-        <button class="btn btn-primary">Edit</button>
-        <button class="btn btn-danger" (click)="deleteCompany(company.id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<fbc-company-table [companies]="companies$ | async" (deleteCompanyClicked)="deleteCompany($event)" ></fbc-company-table>
+
