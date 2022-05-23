@@ -25,6 +25,12 @@ export class CompanyService {
     );
   }
 
+  getCompany(companyId: number): Observable<Company> {
+    return this.httpClient.get<Company>(`${this.API_BASE}/company/${companyId}`).pipe(
+      catchError((e) => this.errorHandler<Company>(e)),
+    );
+  }
+
   deleteCompany(companyId): Observable<Company> {
     //console.log('service.deleteCompany fired. CompanyId=', companyId);
     return this.httpClient
@@ -35,6 +41,15 @@ export class CompanyService {
   addCompany(company: Company): Observable<Company> {
     return this.httpClient
       .post<Company>(`${this.API_BASE}/company/`, company, {
+        headers: new HttpHeaders().set('content-type', 'application/json')
+      }).pipe(
+        catchError(e => this.errorHandler<Company>(e))
+      );
+  }
+
+  updateCompany(company: Company): Observable<Company> {
+    return this.httpClient
+      .put<Company>(`${this.API_BASE}/company/${company.id}`, company, {
         headers: new HttpHeaders().set('content-type', 'application/json')
       }).pipe(
         catchError(e => this.errorHandler<Company>(e))
