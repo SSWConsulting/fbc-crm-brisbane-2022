@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
+@UntilDestroy()
 @Component({
   selector: 'fbc-company-edit',
   templateUrl: './company-edit.component.html',
@@ -39,7 +41,9 @@ export class CompanyEditComponent implements OnInit {
         })
     }
 
-    this.formGroup.get('checkPhone').valueChanges.subscribe(value => {
+    this.formGroup.get('checkPhone').valueChanges.pipe(
+      untilDestroyed(this),
+    ).subscribe(value => {
       if (value) {
         this.formGroup.get('phone').setValidators(Validators.required);
       } else {
