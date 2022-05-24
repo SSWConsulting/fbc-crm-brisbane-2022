@@ -9,13 +9,15 @@ import { CompanyListComponent } from './company/company-list/company-list.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CompanyTableComponent } from './company/company-table/company-table.component';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+import { TextComponent } from './controls/text/text.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CompanyListComponent,
     CompanyTableComponent,
-    CompanyEditComponent
+    CompanyEditComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule,
