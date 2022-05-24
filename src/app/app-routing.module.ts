@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'company/list', pathMatch: 'full' },
   { path: 'company/list', component: CompanyListComponent },
   { path: 'company/add', component: CompanyEditComponent },
-  { path: 'company/edit/:id', component: CompanyEditComponent }
+  { path: 'company/edit/:id', component: CompanyEditComponent },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
 ];
 
 @NgModule({
