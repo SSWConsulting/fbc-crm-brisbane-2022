@@ -20,10 +20,7 @@ export class CompanyListComponent implements OnInit {
 
   deleteCompany(companyId: number) {
     //console.log('component.deleteCompany fired. companyId=', companyId);
-    this.companyService.deleteCompany(companyId)
-    .subscribe( // Subscribe to the observable so it actually does something.
-      () => { this.getCompanies() } // do something (ie refresh our company list)
-    );
+    this.companyService.deleteCompany(companyId);
   }
 
   getCompanies() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError, tap, finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, tap, finalize, delay } from 'rxjs/operators';
 
 import { Company } from './company';
 
@@ -11,18 +11,16 @@ import { Company } from './company';
 export class CompanyService {
   API_BASE = 'https://firebootcamp-crm-api.azurewebsites.net/api';
 
-  constructor(private httpClient: HttpClient) {}
+  companies$ = new BehaviorSubject<Company[]>([]);
+
+  constructor(
+    private httpClient: HttpClient,
+  ) {
+    this.loadCompanies();
+  }
 
   getCompanies(): Observable<Company[]> {
-    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`).pipe(
-      tap((companies) => {
-        //console.log('logging from service ', companies);
-      }),
-      catchError((e) => this.errorHandler<Company[]>(e)),
-      finalize(() => {
-        //console.log('finalized the stream');
-      })
-    );
+    return this.companies$;
   }
 
   getCompany(companyId: number): Observable<Company> {
@@ -31,29 +29,37 @@ export class CompanyService {
     );
   }
 
-  deleteCompany(companyId): Observable<Company> {
-    //console.log('service.deleteCompany fired. CompanyId=', companyId);
-    return this.httpClient
+  deleteCompany(companyId: number): void {
+    this.httpClient
       .delete<Company>(`${this.API_BASE}/company/${companyId}`)
-      .pipe(catchError((e) => this.errorHandler<Company>(e)));
+      .pipe(
+        catchError((e) => this.errorHandler<Company>(e)),
+      ).subscribe(company => this.loadCompanies());
   }
 
-  addCompany(company: Company): Observable<Company> {
-    return this.httpClient
+  addCompany(company: Company): void {
+    this.httpClient
       .post<Company>(`${this.API_BASE}/company/`, company, {
         headers: new HttpHeaders().set('content-type', 'application/json')
       }).pipe(
+        delay(5000),
         catchError(e => this.errorHandler<Company>(e))
-      );
+      ).subscribe(company => this.loadCompanies());
   }
 
-  updateCompany(company: Company): Observable<Company> {
-    return this.httpClient
+  updateCompany(company: Company): void {
+    this.httpClient
       .put<Company>(`${this.API_BASE}/company/${company.id}`, company, {
         headers: new HttpHeaders().set('content-type', 'application/json')
       }).pipe(
         catchError(e => this.errorHandler<Company>(e))
-      );
+      ).subscribe(company => this.loadCompanies());
+  }
+
+  private loadCompanies(): void {
+    this.httpClient.get<Company[]>(`${this.API_BASE}/company`).pipe(
+      catchError((e) => this.errorHandler<Company[]>(e)),
+    ).subscribe(companies => this.companies$.next(companies));
   }
 
   private errorHandler<T>(error: Error): Observable<T> {
