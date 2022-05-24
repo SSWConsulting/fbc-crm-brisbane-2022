@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CompanyService } from './company/company.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { CompanyService } from './company/company.service';
 })
 export class AppComponent implements OnInit {
   title = 'Brisbane is awesome';
+  isProduction = environment.production;
 
   companyCount$: Observable<number> = of(0);
 

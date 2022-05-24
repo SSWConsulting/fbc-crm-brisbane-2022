@@ -4,12 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap, finalize, delay } from 'rxjs/operators';
 
 import { Company } from './company';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
-  API_BASE = 'https://firebootcamp-crm-api.azurewebsites.net/api';
+  API_BASE = environment.API_BASE;
 
   companies$ = new BehaviorSubject<Company[]>([]);
 
